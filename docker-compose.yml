@@ -36,9 +36,9 @@ services:
       - mynetwork
   socket:
     container_name: socket-docker
-    build: .././MeetMe-Websocket 
+    build: .././MeetMe-Websocket/ 
     volumes:
-      - '.././MeetMe-Websocket /:/usr/src/app'
+      - '.././MeetMe-Websocket/:/usr/src/app'
       - '/usr/src/app/node_modules'
     ports:
       - '5002:5002'
