@@ -2,6 +2,7 @@ version: "3.9"
 
 services:
   api:
+    container_name: api-docker
     build: .././MeetMe-Backend/
     environment:
       APP_PORT: 8080
@@ -30,6 +31,20 @@ services:
       - '3000:3000'
     environment:
       - REACT_APP_BASE_API=http://dev-meetme.com
+    networks:
+      - mynetwork
+  socket:
+    container_name: socket-docker
+    build: .././MeetMe-Websocket 
+    volumes:
+      - '.././MeetMe-Websocket /:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - '5002:5002'
+    environment:
+      API_PORT: 5002
+      MONGO_URL: mongodb+srv://MeetMeUser:Ntw171044.@cluster0.salidj6.mongodb.net/?retryWrites=true&w=majority
+      TOKEN_KEY: hereShouldGoStrongTokenKey
     networks:
       - mynetwork
 networks:
