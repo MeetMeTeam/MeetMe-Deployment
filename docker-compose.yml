@@ -31,6 +31,7 @@ services:
       - '3000:3000'
     environment:
       - REACT_APP_BASE_API=http://dev-meetme.com
+      - REACT_APP_BASE_API_SOCKET=http://dev-meetme.com/socket
     networks:
       - mynetwork
   socket:
@@ -44,7 +45,7 @@ services:
     environment:
       API_PORT: 5002
       MONGO_URL: mongodb+srv://MeetMeUser:Ntw171044.@cluster0.salidj6.mongodb.net/?retryWrites=true&w=majority
-      TOKEN_KEY: hereShouldGoStrongTokenKey
+      TOKEN_KEY: "Hk89LSUPn3r4JDL@#@#$LJJKJDP00-.KJOS"
     networks:
       - mynetwork
 networks:
