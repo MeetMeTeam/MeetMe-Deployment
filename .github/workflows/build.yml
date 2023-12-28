@@ -1,10 +1,17 @@
-name: CI-dev-pipeline
+name: Auto Deploy
+
 on:
-  # Triggers the workflow on push or pull request events but only for the develop branch
   push:
-    branches: [ developer ]
+    branches:
+    - dev
+    - developer
+    - main
   pull_request:
-    branches: [ developer ]
+    branches:
+    - dev
+    - developer
+    - main
+
 jobs:
   build:
     # The type of runner that the job will run on
@@ -15,26 +22,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
-          path: "https://github.com/MeetMeTeam/MeetMe-Deployment"
-      - name: Build docker
+          path: "MeetMe-Deployment"
+      - name: docker
         run: docker-compose up -d --build
-          
-    #   - name: Run test
-    #     run: |
-    #       echo --- Running test cases ---
-    #       docker-compose -f ./<REPO_NAME>/docker-compose.test-github.yml -p testing up --build --exit-code-from api-test
-    #       echo --- Completed test cases ---
-          
-    #  - name: Extract commit
-    #       shell: bash
-    #       run: |
-    #         echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
-    # - name: Get branch name (merge)
-    #   if: github.event_name != 'pull_request'
-    #   shell: bash
-    #   run: echo "BRANCH=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
-  
-    # - name: Get branch name (pull request)
-    #   if: github.event_name == 'pull_request'
-    #   shell: bash
-    #   run: echo "BRANCH=$(echo ${GITHUB_HEAD_REF} | tr / -)" >> $GITHUB_ENV
