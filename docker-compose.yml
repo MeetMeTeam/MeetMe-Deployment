@@ -23,7 +23,7 @@ services:
       - mynetwork
   fe:
     container_name: react-docker
-    build: .././MeetMe-Frontend/
+    build: https://github.com/MeetMeTeam/MeetMe-Frontend
     volumes:
       - '.././MeetMe-Frontend/:/usr/src/app'
       - '/usr/src/app/node_modules'
@@ -36,7 +36,7 @@ services:
       - mynetwork
   socket:
     container_name: socket-docker
-    build: .././MeetMe-Websocket/ 
+    build: https://github.com/MeetMeTeam/MeetMe-Websocket
     volumes:
       - '.././MeetMe-Websocket/:/usr/src/app'
     ports:
