@@ -1,39 +1,41 @@
-name: Auto Deploy
 
+name: CI-dev-pipeline
 on:
+  # Triggers the workflow on push or pull request events but only for the develop branch
   push:
-    branches:
-    - dev
-    - developer
-    - main
+    branches: [ developer ]
   pull_request:
-    branches:
-    - dev
-    - developer
-    - main
-
+    branches: [ developer ]
 jobs:
-  docker:
-    runs-on: self-hosted
-
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    container:
+      image: lucasalt/act_base:latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-
-    - name: Start containers
-      run: docker-compose -f "docker-compose.yml" up -d --build
-
-    # - name: Install node
-    #   uses: actions/setup-node@v1
-    #   with:
-    #     node-version: 14.x
-
-    # - name: Install dependencies
-    #   run: npm install
-
-    # - name: Run tests
-    #   run: npm run test
-
-    # - name: Stop containers
-    #   if: always()
-    #   run: docker-compose -f "docker-compose.yml" down
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          path: "https://github.com/MeetMeTeam/MeetMe-Backend.git"
+      - name: Build docker
+        run: docker-compose up -d --build
+          
+    #   - name: Run test
+    #     run: |
+    #       echo --- Running test cases ---
+    #       docker-compose -f ./<REPO_NAME>/docker-compose.test-github.yml -p testing up --build --exit-code-from api-test
+    #       echo --- Completed test cases ---
+          
+    #  - name: Extract commit
+    #       shell: bash
+    #       run: |
+    #         echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+    # - name: Get branch name (merge)
+    #   if: github.event_name != 'pull_request'
+    #   shell: bash
+    #   run: echo "BRANCH=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
+  
+    # - name: Get branch name (pull request)
+    #   if: github.event_name == 'pull_request'
+    #   shell: bash
+    #   run: echo "BRANCH=$(echo ${GITHUB_HEAD_REF} | tr / -)" >> $GITHUB_ENV
